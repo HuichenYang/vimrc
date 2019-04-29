@@ -1,9 +1,7 @@
 inoremap jj <Esc>
-let mapleader=','
 
 set nocompatible
 
-set encoding=UTF-8
 filetype plugin indent on " Load plugins according to detected filetype
 syntax on
 
@@ -61,13 +59,16 @@ call plug#begin('~/.vim/plugged')
 " Unmanaged plugin (manually installed and updated)
 " Plug '~/my-prototype-plugin'
 
-if has('vim')
-    Plug 'Shougo/defx.nvim', { 'do': 'UpdateRemotePlugins' }
-else
-    Plug 'Shougo/defx.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" if has('vim')
+    " Plug 'Shougo/defx.nvim', { 'do': 'UpdateRemotePlugins' }
+" else
+    " Plug 'Shougo/defx.nvim'
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'kristijanhusak/defx-icons'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " color themes
 Plug 'rakr/vim-one'
@@ -76,7 +77,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'Shougo/echodoc.vim'
-Plug 'Yggdroot/indentline'
+" Plug 'Yggdroot/indentline'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'scrooloose/nerdcommenter'
 
@@ -95,14 +96,17 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'w0rp/ale'
 
 Plug 'lervag/vimtex'
+Plug 'sirver/ultisnips'
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpFrowardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 " Initialize plugin system
 call plug#end()
-let g:plug_timeout=99999999999999
 
 " color theme
 colorscheme one
 set termguicolors
-set background=light
+set background=dark
 let g:lightline = { 'colorscheme': 'one' }
 
 let g:cpp_class_scope_hightlight=1
@@ -206,23 +210,21 @@ au VimEnter * RainbowParenthesesToggle
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 
-call defx#custom#option('_', {
-      \ 'winwidth': 30,
-      \ 'split': 'vertical',
-      \ 'direction': 'botright',
-      \ 'show_ignored_files': 0,
-      \ 'buffer_name': '',
-      \ 'toggle': 1,
-      \ 'resume': 1
-      \ })
+" set the location of viminfo
+set viminfo+=n~/.vim/viminfo
+
+set encoding=UTF-8
 
 " for vimtex
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
+let g:tex_conceal='abdgm'
 set conceallevel=1
-let g:tex_conceal='abdmg'
+set concealcursor=
 
-" set the location of viminfo
-set viminfo+=n~/.vim/viminfo
+let mapleader=','
+let maplocalleader=','
 
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
